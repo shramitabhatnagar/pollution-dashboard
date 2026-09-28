@@ -1,6 +1,6 @@
-# app.py
 import streamlit as st
 import time
+
 from components import (
     load_latest_data,
     load_historical_data,
@@ -11,193 +11,56 @@ from components import (
     show_tab4,
     show_tab5,
     show_tab6,
-    show_tab7
+    show_tab7,
 )
+
+
+# ============================================================
+# PAGE CONFIGURATION
+# ============================================================
 
 st.set_page_config(
     page_title="India Pollution Pulse",
     layout="wide",
-    page_icon="🌫️"
+    page_icon="🌫️",
 )
 
+
 # ============================================================
-# GLOBAL DARK THEME
+# CUSTOM CSS
 # ============================================================
 
-st.markdown("""
-<style>
+st.markdown(
+    """
+    <style>
+        .stApp {
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+        }
 
-.stApp {
-    background-color: #0B1120 !important;
-    color: #F8FAFC !important;
-}
+        header {
+            background-color: #0a0a0a !important;
+        }
 
-header {
-    background-color: #0B1120 !important;
-}
+        h1, h2, h3 {
+            color: #bb86fc !important;
+        }
 
-.block-container {
-    padding-top: 1.5rem !important;
-    padding-bottom: 2rem !important;
-}
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 8px;
+        }
 
-h1, h2, h3, h4, h5, h6 {
-    color: #FFFFFF !important;
-}
+        .stTabs [data-baseweb="tab"] {
+            color: #e0e0e0;
+        }
 
-p {
-    color: #E2E8F0 !important;
-}
-
-[data-testid="stMarkdownContainer"] {
-    color: #E2E8F0 !important;
-}
-
-[data-testid="stCaptionContainer"] {
-    color: #CBD5E1 !important;
-}
-
-/* Buttons */
-.stButton > button {
-    background-color: #1E293B !important;
-    color: #FFFFFF !important;
-    border: 1px solid #475569 !important;
-    border-radius: 8px !important;
-    font-weight: 600 !important;
-}
-
-.stButton > button:hover {
-    background-color: #334155 !important;
-    color: #FFFFFF !important;
-    border-color: #60A5FA !important;
-}
-
-/* Selectboxes */
-div[data-baseweb="select"] > div {
-    background-color: #1E293B !important;
-    color: #FFFFFF !important;
-    border: 1px solid #475569 !important;
-}
-
-div[data-baseweb="select"] span {
-    color: #FFFFFF !important;
-}
-
-div[data-baseweb="select"] input {
-    color: #FFFFFF !important;
-}
-
-div[role="listbox"] {
-    background-color: #1E293B !important;
-}
-
-div[role="option"] {
-    background-color: #1E293B !important;
-    color: #FFFFFF !important;
-}
-
-div[role="option"]:hover {
-    background-color: #334155 !important;
-}
-
-/* Multiselect */
-[data-baseweb="tag"] {
-    background-color: #334155 !important;
-}
-
-[data-baseweb="tag"] span {
-    color: #FFFFFF !important;
-}
-
-/* Tabs */
-button[data-baseweb="tab"] {
-    color: #CBD5E1 !important;
-    background-color: transparent !important;
-    font-weight: 600 !important;
-}
-
-button[data-baseweb="tab"]:hover {
-    color: #FFFFFF !important;
-}
-
-button[data-baseweb="tab"][aria-selected="true"] {
-    color: #FFFFFF !important;
-    font-weight: 700 !important;
-}
-
-div[data-baseweb="tab-highlight"] {
-    background-color: #BB86FC !important;
-}
-
-/* Metrics */
-div[data-testid="stMetric"] {
-    background-color: #111827 !important;
-    border: 1px solid #374151 !important;
-    border-radius: 10px !important;
-    padding: 15px !important;
-}
-
-div[data-testid="stMetricLabel"] {
-    color: #CBD5E1 !important;
-}
-
-div[data-testid="stMetricValue"] {
-    color: #FFFFFF !important;
-}
-
-/* Expanders */
-div[data-testid="stExpander"] {
-    background-color: #111827 !important;
-    border: 1px solid #374151 !important;
-    border-radius: 10px !important;
-}
-
-div[data-testid="stExpander"] summary {
-    color: #FFFFFF !important;
-}
-
-/* Alerts */
-div[data-testid="stAlert"] p {
-    color: #FFFFFF !important;
-}
-
-/* Sidebar */
-section[data-testid="stSidebar"] {
-    background-color: #0F172A !important;
-}
-
-section[data-testid="stSidebar"] p,
-section[data-testid="stSidebar"] label,
-section[data-testid="stSidebar"] span {
-    color: #FFFFFF !important;
-}
-
-/* Dataframe */
-[data-testid="stDataFrame"] {
-    border: 1px solid #374151 !important;
-    border-radius: 8px !important;
-}
-
-/* Inputs */
-input {
-    color: #FFFFFF !important;
-}
-
-div[data-baseweb="input"] {
-    background-color: #1E293B !important;
-}
-
-div[data-baseweb="input"] input {
-    color: #FFFFFF !important;
-}
-
-/* Dividers */
-hr {
-    border-color: #334155 !important;
-}
-
-</style>
-""", unsafe_allow_html=True)
+        .stTabs [aria-selected="true"] {
+            color: #bb86fc !important;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
 
 # ============================================================
@@ -205,8 +68,12 @@ hr {
 # ============================================================
 
 st.markdown(
-    "<h1 style='text-align: left; color: #BB86FC;'>🌫️ India Pollution Pulse</h1>",
-    unsafe_allow_html=True
+    """
+    <h1 style='text-align: left; color: #bb86fc;'>
+        🌫️ India Pollution Pulse
+    </h1>
+    """,
+    unsafe_allow_html=True,
 )
 
 
@@ -214,69 +81,201 @@ st.markdown(
 # LOAD DATA
 # ============================================================
 
-df = load_latest_data()
-df_hist = load_historical_data()
+try:
+    df = load_latest_data()
+    df_hist = load_historical_data()
+
+except Exception as e:
+    st.error("Unable to load pollution data.")
+    st.exception(e)
+    st.stop()
+
+
+# ============================================================
+# VALIDATE LATEST DATA
+# ============================================================
+
+if df is None:
+    st.warning("No recent data found.")
+    st.stop()
 
 if df.empty:
     st.warning("No recent data found.")
     st.stop()
 
-st.caption(f"Last data fetched: **{df['last_update'].max()}**")
+
+# ============================================================
+# LAST UPDATE
+# ============================================================
+
+# Railway was crashing because last_update does not always exist.
+# Therefore, check that the column exists before accessing it.
+
+if "last_update" in df.columns:
+
+    try:
+        last_update = df["last_update"].max()
+
+        st.caption(
+            f"Last data fetched: **{last_update}**"
+        )
+
+    except Exception:
+        st.caption("Latest pollution data")
+
+else:
+
+    st.caption("Latest pollution data")
 
 
 # ============================================================
-# ADD REGION
+# ADD REGION COLUMN
 # ============================================================
 
 df = df.copy()
 
-df['region'] = df['state'].apply(
-    lambda x: next(
-        (reg for reg, states in regions.items() if x in states),
-        "Other"
+
+if "state" in df.columns:
+
+    df["region"] = df["state"].apply(
+        lambda x: next(
+            (
+                reg
+                for reg, states in regions.items()
+                if x in states
+            ),
+            "Other",
+        )
     )
-)
+
+else:
+
+    # Prevent the dashboard from crashing if state is unavailable
+    df["region"] = "Other"
 
 
 # ============================================================
 # TABS
 # ============================================================
 
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
-    "🗺️ All Pollutants Map",
-    "🟥 AQI Map",
-    "📊 Analytics",
-    "📈 Time Trends",
-    "🏙️ Regional Comparison",
-    "⏰ Hourly Patterns",
-    "🎯 AQI Overview & KPIs"
-])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
+    [
+        "🗺️ All Pollutants Map",
+        "🟥 AQI Map",
+        "📊 Analytics",
+        "📈 Time Trends",
+        "🏙️ Regional Comparison",
+        "⏰ Hourly Patterns",
+        "🎯 AQI Overview & KPIs",
+    ]
+)
+
+
+# ============================================================
+# TAB 1
+# ============================================================
 
 with tab1:
-    show_tab1(df, regions)
+
+    try:
+        show_tab1(df, regions)
+
+    except Exception as e:
+        st.error("Unable to load All Pollutants Map.")
+        st.exception(e)
+
+
+# ============================================================
+# TAB 2
+# ============================================================
 
 with tab2:
-    show_tab2(df, regions)
+
+    try:
+        show_tab2(df, regions)
+
+    except Exception as e:
+        st.error("Unable to load AQI Map.")
+        st.exception(e)
+
+
+# ============================================================
+# TAB 3
+# ============================================================
 
 with tab3:
-    show_tab3(df)
+
+    try:
+        show_tab3(df)
+
+    except Exception as e:
+        st.error("Unable to load Analytics.")
+        st.exception(e)
+
+
+# ============================================================
+# TAB 4
+# ============================================================
 
 with tab4:
-    show_tab4(df_hist)
+
+    try:
+        show_tab4(df_hist)
+
+    except Exception as e:
+        st.error("Unable to load Time Trends.")
+        st.exception(e)
+
+
+# ============================================================
+# TAB 5
+# ============================================================
 
 with tab5:
-    show_tab5(df)
+
+    try:
+        show_tab5(df)
+
+    except Exception as e:
+        st.error("Unable to load Regional Comparison.")
+        st.exception(e)
+
+
+# ============================================================
+# TAB 6
+# ============================================================
 
 with tab6:
-    show_tab6(df_hist)
+
+    try:
+        show_tab6(df_hist)
+
+    except Exception as e:
+        st.error("Unable to load Hourly Patterns.")
+        st.exception(e)
+
+
+# ============================================================
+# TAB 7
+# ============================================================
 
 with tab7:
-    show_tab7(df)
+
+    try:
+        show_tab7(df)
+
+    except Exception as e:
+        st.error("Unable to load AQI Overview & KPIs.")
+        st.exception(e)
 
 
 # ============================================================
 # AUTO REFRESH
 # ============================================================
 
+# Refresh every 60 seconds.
+# Streamlit reruns the complete application.
+
 time.sleep(60)
+
 st.rerun()
